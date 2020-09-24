@@ -14,6 +14,9 @@ package com.company;
 // ******************ERRORS********************************
 // Throws UnderflowException as appropriate
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
+
 /**
  * Implements a binary heap.
  * Note that all "matching" is based on the compareTo method.
@@ -63,12 +66,14 @@ public class BinaryHeap<AnyType extends Comparable<? super AnyType>>
         if( currentSize == array.length - 1 )
             enlargeArray( array.length * 2 + 1 );
 
+
         // Percolate up
         int hole = ++currentSize;
         for( array[ 0 ] = x; x.compareTo( array[ hole / 2 ] ) < 0; hole /= 2 )
             array[ hole ] = array[ hole / 2 ];
         array[ hole ] = x;
-    }
+
+         }
 
 
     private void enlargeArray( int newSize )
@@ -138,6 +143,9 @@ public class BinaryHeap<AnyType extends Comparable<? super AnyType>>
     private int currentSize;      // Number of elements in heap
     private AnyType [ ] array; // The heap array
 
+
+
+
     /**
      * Internal method to percolate down in the heap.
      * @param hole the index at which the percolate begins.
@@ -159,33 +167,71 @@ public class BinaryHeap<AnyType extends Comparable<? super AnyType>>
                 break;
         }
         array[ hole ] = tmp;
+        
     }
 
     // Implement increase key
-    public void increaseKey(int index, AnyType amount){
-        if(amount>0){
-            array[index] += amount;
-
-            // compare til sig selv?
-            // rykke i forhold til egen key?
+    public void increaseKey(int index, AnyType newValue){
+        if(array[index].compareTo(newValue) < 0){
+            array[index] = newValue;
+            percolateDown(index);
+        } else {
+            System.out.println("new key is not bigger");
         }
     }
 
     // implement decrease key
+    private void decreaseKey(int index, AnyType newValue){
+        if(array[index].compareTo(newValue)>0){
+            int hole = index;
+            for( ; newValue.compareTo( array[ hole / 2 ] ) < 0; hole /= 2 )
+                array[ hole ] = array[ hole / 2 ];
+            array[ hole ] = newValue;
+        }
+
+    }
+    @Override
+    public String toString(){
+        return Arrays.toString(array);
+    }
 
     // Test program
     public static void main( String [ ] args )
     {
-        int numItems = 10000;
+        int numItems = 50;
         BinaryHeap<Integer> h = new BinaryHeap<>( );
         int i = 37;
 
         for( i = 37; i != 0; i = ( i + 37 ) % numItems )
             h.insert( i );
+        h.increaseKey(1, 88);
+        h.decreaseKey(6,5);
+
+        /** exercise 01, illustrate what happens when you insert following numbers, one by one */
+        System.out.println("Exercise 01, start");
+        BinaryHeap<Integer> h2 = new BinaryHeap<>( );
+        int[] ints = new int[]{10, 12, 1, 14, 6, 5, 8, 15, 3, 9, 7, 4, 11, 13, 2};
+        for(int j = 0;j<ints.length;j++){
+            h2.insert(ints[j]);
+            System.out.println(h2.toString());
+        }
+        System.out.println("Exercise 01, end \n");
+
+        /** Show the result of performing three deleteMin operations in the heap of the previous exercise. */
+        System.out.println("Exercise 02, start");
+        for(int k = 0; k<3;k++){
+            h2.deleteMin();
+            System.out.println(h2.toString());
+
+        }
+        System.out.println("Exercise 02, end");
+
+        /**
         for( i = 1; i < numItems; i++ )
             if( h.deleteMin( ) != i )
                 System.out.println( "Oops! " + i );
-    }
+*/
+         }
 
 
 }
