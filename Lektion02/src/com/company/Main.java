@@ -8,7 +8,7 @@ public class Main {
     public static void main(String[] args) {
 	    BalPar bp = new BalPar();
 
-	    if(bp.isBalanced("(())")){
+	    if(bp.balpar("(())")){
 			System.out.println("Balanced");
 		} else{
 			System.out.println("Not balanced");
