@@ -172,7 +172,7 @@ public class BinaryHeap<AnyType extends Comparable<? super AnyType>>
 
     // Implement increase key
     public void increaseKey(int index, AnyType newValue){
-        if(array[index].compareTo(newValue) < 0){
+        if(index <= currentSize && array[index].compareTo(newValue) < 0){
             array[index] = newValue;
             percolateDown(index);
         } else {
@@ -182,7 +182,7 @@ public class BinaryHeap<AnyType extends Comparable<? super AnyType>>
 
     // implement decrease key
     private void decreaseKey(int index, AnyType newValue){
-        if(array[index].compareTo(newValue)>0){
+        if(index <= currentSize && array[index].compareTo(newValue)>0){
             int hole = index;
             for( ; newValue.compareTo( array[ hole / 2 ] ) < 0; hole /= 2 )
                 array[ hole ] = array[ hole / 2 ];
@@ -217,7 +217,7 @@ public class BinaryHeap<AnyType extends Comparable<? super AnyType>>
         }
         System.out.println("Exercise 01, end \n");
 
-        /** Show the result of performing three deleteMin operations in the heap of the previous exercise. */
+        /** Exercise 02 Show the result of performing three deleteMin operations in the heap of the previous exercise. */
         System.out.println("Exercise 02, start");
         for(int k = 0; k<3;k++){
             h2.deleteMin();
@@ -225,6 +225,48 @@ public class BinaryHeap<AnyType extends Comparable<? super AnyType>>
 
         }
         System.out.println("Exercise 02, end");
+
+
+        /** Exercise 03 Write pseudocode to check heap order in binary tree */
+        /**
+         *  Using a simple queue system:
+         *
+         *  int nodeValue;
+         *
+         *  queue.enqueue(root)
+         *  while !queue.isEmpty
+         *      node = queue.dequeue();
+         *      nodeValue = node.getValue();
+         *      if node.left != null
+         *          if node.left.getValue() < nodeValue
+         *              return false;
+         *          else
+         *              queue.enqueue(left);
+         *      if node.right != null
+         *          if node.right.getValue() < nodeValue
+         *              return false;
+         *          else
+         *              queue.enqueue(right);
+         *
+         *  return true
+         */
+
+        /** Exercise 03 Write pseudocode to check heap order in binary heap, array implementation */
+        /**
+         *
+         *
+         *  for(int i = 0; i<array.length; i++)
+         *      node = array[i];
+         *      if array[i * 2] != null
+         *          if node.compareTo(array[i*2]) > 0           // compare value > 0, then the number at array[i] is larger than array[i*2]
+         *             return false;
+         *      if array[i*2+1] != null
+         *          if node.compareTo(array[i*2+1]) > 0
+         *              return false;
+         *  return true;
+         *
+         *
+         */
 
         /**
         for( i = 1; i < numItems; i++ )
