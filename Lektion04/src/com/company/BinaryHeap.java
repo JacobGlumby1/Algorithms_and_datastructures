@@ -219,6 +219,7 @@ public class BinaryHeap<AnyType extends Comparable<? super AnyType>>
 
         /** Exercise 02 Show the result of performing three deleteMin operations in the heap of the previous exercise. */
         System.out.println("Exercise 02, start");
+        System.out.println(h2.toString());
         for(int k = 0; k<3;k++){
             h2.deleteMin();
             System.out.println(h2.toString());
