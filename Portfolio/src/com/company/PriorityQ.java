@@ -23,25 +23,15 @@ public class PriorityQ {
     }
 
 
-    /**
-     * Find the smallest item in the priority queue.
-     * @return the smallest item, or throw an UnderflowException if empty.
-     */
+
     public int findMin( )
     {
-        if( isEmpty( ) )
-            throw new RuntimeException("Stack Underflow");
         return array[ 1 ];
     }
 
-    /**
-     * Remove the smallest item from the priority queue.
-     * @return the smallest item, or throw an UnderflowException if empty.
-     */
+
     public int deleteMin( )
     {
-        if( isEmpty( ) )
-            throw new RuntimeException("Stack Underflow");
         counter++;
         int minItem = findMin( );
         array[ 1 ] = array[ currentSize-- ];
@@ -50,10 +40,7 @@ public class PriorityQ {
         return minItem;
     }
 
-    /**
-     * Establish heap order property from an arbitrary
-     * arrangement of items. Runs in linear time.
-     */
+
     private void buildHeap( )
     {
         for( int i = currentSize / 2; i > 0; i-- ){
@@ -64,10 +51,7 @@ public class PriorityQ {
 
     }
 
-    /**
-     * Test if the priority queue is logically empty.
-     * @return true if empty, false otherwise.
-     */
+
     public boolean isEmpty( )
     {
         return currentSize == 0;
@@ -75,10 +59,6 @@ public class PriorityQ {
 
 
 
-    /**
-     * Percolate items that violate heap order down in the heap.
-     * @param hole = index to start at.
-     */
     private void percolateDown( int hole )
     {
         int child;
@@ -109,6 +89,13 @@ public class PriorityQ {
 
         return "the requested element is " + element;
     }
+
+
+    public void reset(){
+        counter = 0;
+    }
+
+
 
     @Override
     public String toString(){
