@@ -1,6 +1,9 @@
 package com.company;// BinarySearchTree class
 
 import java.lang.Exception;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
 //
 // CONSTRUCTION: with no initializer
 //
@@ -251,8 +254,8 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>> {
         BinaryNode<AnyType> right;  // Right child
     }
 
-    public void postOrderTraverse(BinaryNode<AnyType> t){
-        if(t == null){
+    public void postOrderTraverse(BinaryNode<AnyType> t) {
+        if (t == null) {
             return;
         }
         postOrderTraverse(t.left);
@@ -260,8 +263,9 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>> {
         System.out.println(t.element);
 
     }
-    public void preOrderTraverse(BinaryNode<AnyType> t){
-        if(t == null){
+
+    public void preOrderTraverse(BinaryNode<AnyType> t) {
+        if (t == null) {
             return;
         }
         System.out.println(t.element);
@@ -269,14 +273,42 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>> {
         preOrderTraverse(t.right);
     }
 
+    public void levelOrderTraverse(BinaryNode<AnyType> t){
+        LinkedList<BinaryNode<AnyType>> list = new LinkedList<>();
+        list.add(t);
+        while(!list.isEmpty()){
+            BinaryNode tempnode = list.poll();
+            System.out.println(tempnode.element);
+            if(tempnode.left != null){
+                list.add(tempnode.left);
+            }
+            if(tempnode.right != null){
+                list.add(tempnode.right);
+            }
+        }
+    }
 
-
-
+    // Array generator.
+    public int[] genArray(int size){
+        ArrayList<Integer> arrList = new ArrayList<>();
+        for(int i = 0; i < size; i++){
+            arrList.add(i);
+        }
+        Collections.shuffle(arrList);
+        int[] intArr = new int[size];
+        for(int i = 0;i < intArr.length;i++)
+            intArr[i] = arrList.get(i);
+        return intArr;
+    }
 
     // Test program
     public static void main(String[] args) {
+
+
         BinarySearchTree<Integer> t = new BinarySearchTree<>();
-        final int NUMS = 16;
+        int[] array = t.genArray(20);
+        /**
+        final int NUMS = 4000;
         final int GAP = 37;
 
         System.out.println("Checking... (no more output means success)");
@@ -287,14 +319,19 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>> {
         for (int i = 1; i < NUMS; i += 2)
             t.remove(i);
 
-/**
+
         if (NUMS < 40)
             t.printTree();
         if (t.findMin() != 2 || t.findMax() != NUMS - 2)
             System.out.println("FindMin or FindMax error!");
- */
+         */
+        for(int i = 0; i <array.length; i++){
+            t.insert(array[i]);
+        }
+        System.out.println("Root is: " + t.root.element);
+        System.out.println("Left is: " + t.root.left.element);
+        System.out.println("Right is: " + t.root.right.element);
 
-        System.out.println(t.root.element);
         System.out.println("Post order traverse");
         t.postOrderTraverse(t.root);
 
@@ -302,8 +339,10 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>> {
         t.preOrderTraverse(t.root);
 
 
+        System.out.println("Level order traverse");
+        t.levelOrderTraverse(t.root);
 
-
+        /*
         for (int i = 2; i < NUMS; i += 2)
             if (!t.contains(i))
                 System.out.println("Find error1!");
@@ -312,5 +351,7 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>> {
             if (t.contains(i))
                 System.out.println("Find error2!");
         }
+
+         */
     }
 }
