@@ -80,7 +80,6 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>> {
 
     /**
      * Find an item in the tree.
-     *
      * @param x the item to search for.
      * @return true if not found.
      */
@@ -97,7 +96,6 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>> {
 
     /**
      * Test if the tree is logically empty.
-     *
      * @return true if empty, false otherwise.
      */
     public boolean isEmpty() {
@@ -116,7 +114,6 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>> {
 
     /**
      * Internal method to insert into a subtree.
-     *
      * @param x the item to insert.
      * @param t the node that roots the subtree.
      * @return the new root of the subtree.
@@ -138,7 +135,6 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>> {
 
     /**
      * Internal method to remove from a subtree.
-     *
      * @param x the item to remove.
      * @param t the node that roots the subtree.
      * @return the new root of the subtree.
@@ -164,7 +160,6 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>> {
 
     /**
      * Internal method to find the smallest item in a subtree.
-     *
      * @param t the node that roots the subtree.
      * @return node containing the smallest item.
      */
@@ -212,8 +207,7 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>> {
     }
 
     /**
-     * Internal method to print a subtree in sorted order.
-     *
+     * Internal method to print a subtree in sorted order
      * @param t the node that roots the subtree.
      */
     private void printTree(BinaryNode<AnyType> t) {
@@ -226,7 +220,6 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>> {
 
     /**
      * Internal method to compute height of a subtree.
-     *
      * @param t the node that roots the subtree.
      */
     private int height(BinaryNode<AnyType> t) {
@@ -236,22 +229,10 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>> {
             return 1 + Math.max(height(t.left), height(t.right));
     }
 
-    // Basic node stored in unbalanced binary search trees
-    private static class BinaryNode<AnyType> {
-        // Constructors
-        BinaryNode(AnyType theElement) {
-            this(theElement, null, null);
-        }
-
-        BinaryNode(AnyType theElement, BinaryNode<AnyType> lt, BinaryNode<AnyType> rt) {
-            element = theElement;
-            left = lt;
-            right = rt;
-        }
-
-        AnyType element;            // The data in the node
-        BinaryNode<AnyType> left;   // Left child
-        BinaryNode<AnyType> right;  // Right child
+    public int countNodes(BinaryNode<AnyType> t){
+        int counter = 0;
+        // Tilføj alle nodes til liste. returner længden. 
+        return counter;
     }
 
     public void postOrderTraverse(BinaryNode<AnyType> t) {
@@ -300,6 +281,30 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>> {
             intArr[i] = arrList.get(i);
         return intArr;
     }
+    // Basic node stored in unbalanced binary search trees
+    private static class BinaryNode<AnyType> {
+        AnyType element;
+        BinaryNode<AnyType> left;
+        BinaryNode<AnyType> right;
+
+        BinaryNode(AnyType theElement) {
+            this(theElement, null, null);
+        }
+
+        BinaryNode(AnyType theElement, BinaryNode<AnyType> lt, BinaryNode<AnyType> rt) {
+            element = theElement;
+            left = lt;
+            right = rt;
+        }
+
+
+    }
+
+
+
+
+
+
 
     // Test program
     public static void main(String[] args) {
@@ -325,9 +330,12 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>> {
         if (t.findMin() != 2 || t.findMax() != NUMS - 2)
             System.out.println("FindMin or FindMax error!");
          */
+
         for(int i = 0; i <array.length; i++){
             t.insert(array[i]);
         }
+
+        /**
         System.out.println("Root is: " + t.root.element);
         System.out.println("Left is: " + t.root.left.element);
         System.out.println("Right is: " + t.root.right.element);
@@ -337,10 +345,13 @@ public class BinarySearchTree<AnyType extends Comparable<? super AnyType>> {
 
         System.out.println("Pre order traverse");
         t.preOrderTraverse(t.root);
-
+        */
 
         System.out.println("Level order traverse");
         t.levelOrderTraverse(t.root);
+        System.out.println("Number of nodes");
+        System.out.println(t.countNodes(t.root));
+
 
         /*
         for (int i = 2; i < NUMS; i += 2)
