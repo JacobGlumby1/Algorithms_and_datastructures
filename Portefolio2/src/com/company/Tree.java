@@ -3,94 +3,121 @@ package com.company;
 import java.util.LinkedList;
 
 public class Tree {
-    public int[][] board;
-    public int xMove[] = {2, 1, -1, -2, -2, -1, 1, 2};
-    public int yMove[] = {1, 2, 2, 1, -1, -2, -2, -1};
+
+    private int depth = 1; //Setting depth to 1, as it doesent function right if 0.
+    private int[][] board;
+    private int[] xMove = {2, 1, -1, -2, -2, -1, 1, 2};
+    private int[] yMove = {1, 2, 2, 1, -1, -2, -2, -1};
+    private Node endNode;
 
     private Node root;
 
-    public Tree(int startX, int startY, int boardHeight, int boardWidth) {
-        this.root = new Node(startX, startY);
-        this.board = new int[boardHeight][boardWidth];
+
+    public Tree(int boardHeight, int boardWidth, int startX, int startY, int endX, int endY) {
+        this.root = new Node(startX, startY, depth - 1);
+        this.board = new int[boardHeight + 1][boardWidth + 1];
         board[startY][startX] = 1;
+        buildTree(root, endX, endY);
     }
 
-    public void buildTree(Node root) {
-        int knightMoves = 8;
-        int childCount = 0;
+    public void buildTree(Node root, int xEnd, int yEnd) {
+        int knightMoves = 7;
         LinkedList<Node> queue = new LinkedList<>();
         queue.add(root);
+        queue.add(null);
         while (!queue.isEmpty()) {
             Node tempNode = queue.poll();
-            if (childCount == 0 && isValidMove(tempNode, xMove[0], yMove[0])) {
-                if (isNewMove(board, tempNode, xMove[0], yMove[0])) {
-                    queue.add(tempNode.firstChild = new Node(tempNode.x + xMove[0], tempNode.y + yMove[0]));
-                    board[tempNode.y + yMove[0]][tempNode.x + xMove[0]] = 1;
-                }
-                childCount += 1;
-            } else if (childCount > 0 && childCount < knightMoves) {
-                for (int i = 1; i < knightMoves; i++) {
-                    if (isValidMove(tempNode, xMove[i], yMove[i])) {
-                        if(isNewMove(board, tempNode, xMove[i], yMove[i])){
-                            queue.add(tempNode.nextSibling = new Node(tempNode.x + xMove[i], tempNode.y + yMove[i]));
-                            childCount += 1;
-                            board[tempNode.y + yMove[i]][tempNode.x + xMove[i]] = 1;
+            if (tempNode == null) {
+                depth++;
+                queue.add(null);
+                if (queue.peek() == null) break;
+                else continue;
+            }
+            for (int i = 0; i < knightMoves; i++) {
+                if (isValidMove(tempNode, xMove[i], yMove[i])) {
+                    if (isNewMove(board, tempNode, xMove[i], yMove[i])) {
+                        Node node = new Node(tempNode.getX() + xMove[i], tempNode.getY() + yMove[i], depth);
+                        tempNode.getChildList().add(node);
+                        queue.add(node);
+                        board[tempNode.getY() + yMove[i]][tempNode.getX() + xMove[i]] = depth;
+                        if (isEndPosition(node, xEnd, yEnd)) {
+                            this.endNode = node;
                         }
+                        //printBoard();
                     }
                 }
-                childCount = 0;
+
             }
         }
+    }
 
+    private void printBoard() {
+        for (int j = 0; j < board[1].length - 1; j++) {
+            for (int k = 0; k < board[0].length - 1; k++) {
+                System.out.print(board[k][j] + "\t");
+            }
+            System.out.println("\n");
+        }
+        System.out.println("\n");
+    }
+
+    private boolean isEndPosition(Node node, int xEnd, int yEnd) {
+        return node.getX() == xEnd && node.getY() == yEnd;
     }
 
     private boolean isValidMove(Node node, int xMove, int yMove) {
-        if (node.x + xMove >= 0 && node.x + xMove < board[1].length && node.y + yMove >= 0 && node.y + yMove < board[0].length) {
-            return true;
-        }
-        return false;
+        return node.getX() + xMove >= 0 && node.getX() + xMove < board[1].length && node.getY() + yMove >= 0 && node.getY() + yMove < board[0].length;
     }
 
     private boolean isNewMove(int[][] board, Node node, int xMove, int yMove) {
-        if (board[node.y + yMove][node.x + xMove] == 0) {
-            return true;
-        }
-        return false;
+        return board[node.getY() + yMove][node.getX() + xMove] == 0;
     }
 
     public void levelOrderTraversal(Node root) {
         LinkedList<Node> queue = new LinkedList<>();
-        LinkedList<Node> tempQueue = new LinkedList<>();
         queue.add(root);
         while (!queue.isEmpty()) {
-            Node tempnode = queue.poll();
-            System.out.println("x: " + tempnode.x + " y: " + tempnode.y);
-            if (tempnode.nextSibling != null) {
-                queue.add(tempnode.nextSibling);
-                tempQueue.add(tempnode);
-            } else if (!tempQueue.isEmpty()) {
-                for (Node node : tempQueue) {
-                    Node tempnode2 = tempQueue.poll();
-                    if (tempnode2.firstChild != null) {
-                        queue.add(tempnode2.firstChild);
-                    }
+            Node node = queue.poll();
+            System.out.println("X: " + node.getX() + " Y: " + node.getY() + " depth: " + node.getDepth());
+            if (!node.getChildList().isEmpty()) {
+                for (int i = 0; i < node.getChildList().size(); i++) {
+                    queue.add(node.getChildList().get(i));
                 }
-            } else if(tempnode.firstChild != null){
-                queue.add(tempnode.firstChild);
             }
         }
+    }
+
+
+    public Node getEndNode() {
+        return endNode;
     }
 
     public static void main(String[] args) {
-        Tree t = new Tree(0, 0, 10, 10);
-        t.buildTree(t.root);
-        t.levelOrderTraversal(t.root);
-        for(int i = 0; i < t.board[1].length - 1;i++){
-            for (int j = 0; j < t.board[0].length-1; j++) {
-                System.out.print(t.board[j][i]);
-            }
-            System.out.println("\n");
-        }
+        Tree t = new Tree(100, 100, 1, 1, 3, 3);
+
+        System.out.println("The position can be reached in: " + t.endNode.getDepth() + " moves ");
+
+        t.printBoard();
     }
 
+
+    public int getDepth() {
+        return depth;
+    }
+
+    public int[][] getBoard() {
+        return board;
+    }
+
+    public int[] getxMove() {
+        return xMove;
+    }
+
+    public int[] getyMove() {
+        return yMove;
+    }
+
+    public Node getRoot() {
+        return root;
+    }
 }
