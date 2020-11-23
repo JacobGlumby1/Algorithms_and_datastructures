@@ -1,5 +1,13 @@
 package com.company;
 
+//Implement the quickSelect method and conduct a series of experiments that
+//indicate that the time complexity of the method is O(N).
+//When you conduct your experiments, you should do it on a variety of num-
+//bers and a relatively large amount of numbers, i.e. 1000 or more, and you must
+//find a way to `count' the number of instructions that the methods perform, so
+//that you can relate them to N, thus being able to estimate the time complexity.
+//It is not sufficient to simply time your program.
+
 public class QuickSelect {
 
     private int counter = 0;

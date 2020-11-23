@@ -3,6 +3,10 @@ package com.company;
 import java.util.Arrays;
 import java.util.Random;
 
+//Write a method that solves the selection problem using a priority queue (you
+//must write your own PQ), and conduct a series of experiments that indicate
+//that the time complexity of your method is O(N log(N)).
+
 public class PriorityQueue {
 
     private int counter = 0;
