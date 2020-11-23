@@ -15,7 +15,7 @@ public class Tree {
 
     public Tree(int boardHeight, int boardWidth, int startX, int startY, int endX, int endY) {
         this.root = new Node(startX, startY, depth - 1);
-        this.board = new int[boardHeight + 1][boardWidth + 1];
+        this.board = new int[boardHeight][boardWidth];
         board[startY][startX] = 1;
         buildTree(root, endX, endY);
     }
@@ -51,9 +51,9 @@ public class Tree {
         }
     }
 
-    private void printBoard() {
-        for (int j = 0; j < board[1].length - 1; j++) {
-            for (int k = 0; k < board[0].length - 1; k++) {
+    public void printBoard() {
+        for (int j = 0; j < board[1].length; j++) {
+            for (int k = 0; k < board[0].length; k++) {
                 System.out.print(board[k][j] + "\t");
             }
             System.out.println("\n");
@@ -92,15 +92,6 @@ public class Tree {
         return endNode;
     }
 
-    public static void main(String[] args) {
-        Tree t = new Tree(100, 100, 1, 1, 3, 3);
-
-        System.out.println("The position can be reached in: " + t.endNode.getDepth() + " moves ");
-
-        t.printBoard();
-    }
-
-
     public int getDepth() {
         return depth;
     }
@@ -120,4 +111,15 @@ public class Tree {
     public Node getRoot() {
         return root;
     }
+
+    public static void main(String[] args) {
+        Tree t = new Tree(100, 100, 1, 1, 3, 3);
+
+        System.out.println("The position can be reached in: " + t.endNode.getDepth() + " moves ");
+
+        t.printBoard();
+    }
+
+
+
 }
