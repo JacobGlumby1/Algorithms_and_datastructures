@@ -14,8 +14,9 @@ public class Driver {
 
     public static void main(String[] args) {
 
-        System.out.println(MinimumSteps(10,10,0,0,9,9));
-        //System.out.println(MinimumSteps(50,50,1,1,49,49));
+        // The example provided.
+        System.out.println(MinimumSteps(8,8,4,4,3,2));
+
 
     }
 

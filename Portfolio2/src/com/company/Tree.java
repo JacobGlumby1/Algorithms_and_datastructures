@@ -32,7 +32,7 @@ public class Tree {
     public Tree(int boardHeight, int boardWidth, int startX, int startY, int endX, int endY) {
         this.root = new Node(startX, startY, depth - 1);
         this.board = new int[boardHeight][boardWidth];
-        board[startY][startX] = 1;
+        board[startY][startX] = -1;
         buildTree(root, endX, endY);
     }
 
@@ -67,6 +67,10 @@ public class Tree {
         }
     }
 
+    /**
+     * Prints the board, with the numbers, representing the amount of steps taken from the start position.
+     * -1 depicts the starting position.
+     */
     public void printBoard() {
         for (int j = 0; j < board[1].length; j++) {
             for (int k = 0; k < board[0].length; k++) {
